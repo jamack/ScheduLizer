@@ -122,9 +122,7 @@ public class TestActivityCalendar extends AppCompatActivity {
                 // If request is cancelled, the result arrays are empty.
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    // permission was granted, yay! Do the
-                    // calendar-related task you need to do.
-                    // TODO: CALL CALENDAR INSERT CODE
+                    // permission was granted, proceed with code that required permission
                     insertEvent();
                 } else {
                     // permission denied, boo! Disable the
