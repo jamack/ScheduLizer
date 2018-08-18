@@ -29,7 +29,7 @@ public class TestActivityCalendar extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test_calendar);
 
-        Button testButton = findViewById(R.id.test_button);
+        Button testButton = findViewById(R.id.test_button_calendar);
         testButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

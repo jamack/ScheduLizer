@@ -1,32 +1,81 @@
 package com.squirk.android.schedulizer.data;
 
-import java.util.Date;
+import android.arch.persistence.room.ColumnInfo;
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
+import android.arch.persistence.room.PrimaryKey;
 
+import java.util.Date;
+import java.util.UUID;
+
+@Entity(tableName = "shifts")
 public class Shift {
 
+    // Unique identifier for shift
+    @PrimaryKey(autoGenerate = true)
+    private String mId;
+
     // Title/Location of shift
+    @ColumnInfo(name = "title")
     private String mTitle;
 
     // Date of shift
+    @ColumnInfo(name = "date")
     private Date mDate;
 
     // Start time of shift, in minutes that have passed since midnight
+    @ColumnInfo(name = "start_time")
     private int mStartTime;
 
     // End time of shift, in minutes that have passed since midnight
+    @ColumnInfo(name = "end_time")
     private int mEndTime;
 
-    // Note(s) about the shift
+    // Note(s) about the shift. Does NOT need to be stored in database.
+    @Ignore
     private String mNote;
 
-    // How many consecutive days have the same shift (start/end times)
+    // How many consecutive days have the same shift (start/end times). Does NOT need to be stored in database.
+    @Ignore
     private int mRepeatedDays;
 
-    // Whether a reminder is to be set. (Standard reminder time, as set in Preferences)
+    // Whether a reminder is to be set. (Standard reminder time, as set in Preferences). Does NOT need to be stored in database.
+    @Ignore
     private boolean mNeedsReminder;
 
-    // Whether user is busy (e.g. their own shift) or free (e.g. partner's shift)
+    // Whether user is busy (e.g. their own shift) or free (e.g. partner's shift). Does NOT need to be stored in database.
+    @Ignore
     private boolean mIsBusy;
+
+    // Constructor for use by Room Persistence Library
+    public Shift(String Id, String title, Date date, int startTime, int endTime) {
+        mId = Id;
+        mTitle = title;
+        mDate = date;
+        mStartTime = startTime;
+        mEndTime = endTime;
+    }
+
+    // Constructor for standard use
+    // @Ignore annotation tells Room Persistence Library NOT to use this constructor.
+    // (Room needs to find ONE available constructor).
+    public Shift(String title, Date date, int startTime, int endTime) {
+        // Automatically generate a unique ID and assign it to the mId field;
+        mId = UUID.randomUUID().toString();
+
+        mTitle = title;
+        mDate = date;
+        mStartTime = startTime;
+        mEndTime = endTime;
+    }
+
+    public String getId() {
+        return mId;
+    }
+
+    public void setId(String id) {
+        mId = id;
+    }
 
     public String getTitle() {
         return mTitle;
