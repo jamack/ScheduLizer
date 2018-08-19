@@ -6,14 +6,13 @@ import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 
 import java.util.Date;
-import java.util.UUID;
 
 @Entity(tableName = "shifts")
 public class Shift {
 
     // Unique identifier for shift
     @PrimaryKey(autoGenerate = true)
-    private String mId;
+    private int mId;
 
     // Title/Location of shift
     @ColumnInfo(name = "title")
@@ -48,7 +47,7 @@ public class Shift {
     private boolean mIsBusy;
 
     // Constructor for use by Room Persistence Library
-    public Shift(String Id, String title, Date date, int startTime, int endTime) {
+    public Shift(int Id, String title, Date date, int startTime, int endTime) {
         mId = Id;
         mTitle = title;
         mDate = date;
@@ -60,8 +59,6 @@ public class Shift {
     // @Ignore annotation tells Room Persistence Library NOT to use this constructor.
     // (Room needs to find ONE available constructor).
     public Shift(String title, Date date, int startTime, int endTime) {
-        // Automatically generate a unique ID and assign it to the mId field;
-        mId = UUID.randomUUID().toString();
 
         mTitle = title;
         mDate = date;
@@ -69,11 +66,11 @@ public class Shift {
         mEndTime = endTime;
     }
 
-    public String getId() {
+    public int getId() {
         return mId;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         mId = id;
     }
 
@@ -139,5 +136,15 @@ public class Shift {
 
     public void setBusy(boolean busy) {
         mIsBusy = busy;
+    }
+
+    @Override
+    public String toString() {
+        return "Title: " + mTitle + "; "
+                + "Date: " + mDate.toString() + "; "
+                + "Start time (in minutes): " + Integer.toString(mStartTime) + "; "
+                + "End time (in minutes): " + Integer.toString(mEndTime) + ".";
+
+//        return super.toString();
     }
 }
